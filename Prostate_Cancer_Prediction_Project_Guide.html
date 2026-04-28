@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Prostate_Cancer_Prediction_Project_Guide</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5/github-markdown-light.css" />
+</head>
+<body>
+<h1
+id="procognitrack-prostate-cancer-prediction-and-risk-factor-analysis">ProCogniTrack:
+Prostate Cancer Prediction and Risk Factor Analysis</h1>
+<h2 id="using-integrated-health-and-lifestyle-data-analysis">Using
+Integrated Health and Lifestyle Data Analysis</h2>
+<hr />
+<h1 id="curriculum-project-on-data-science-statistics">Curriculum
+Project on Data Science &amp; Statistics</h1>
+<p><strong>FY BSc. Statistics/Data Science</strong></p>
+<p><strong>Vishwakarma University, Pune</strong></p>
+<p><strong>Academic Year: 2025–26</strong></p>
+<hr />
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol type="1">
+<li><a href="#1-abstract">Abstract</a></li>
+<li><a href="#2-chapter-1-introduction">Chapter 1 - Introduction</a>
+<ul>
+<li>1.1 Background</li>
+<li>1.2 Problem Statement</li>
+<li>1.3 Objectives</li>
+</ul></li>
+<li><a href="#3-chapter-2-data-description">Chapter 2 - Data
+Description</a>
+<ul>
+<li>2.1 Data Source</li>
+<li>2.2 Variable Description</li>
+</ul></li>
+<li><a href="#4-chapter-3-methodology">Chapter 3 - Methodology</a>
+<ul>
+<li>3.1 Exploratory Data Analysis (EDA)</li>
+<li>3.2 Statistical Methods</li>
+<li>3.3 Regression Modeling</li>
+<li>3.4 Model Evaluation Metrics</li>
+</ul></li>
+<li><a href="#5-chapter-4-results-and-discussion">Chapter 4 - Results
+and Discussion</a>
+<ul>
+<li>4.1 Univariate Analysis</li>
+<li>4.2 Bivariate Analysis</li>
+<li>4.3 Multivariate Analysis</li>
+<li>4.4 Regression Results</li>
+</ul></li>
+<li><a href="#6-chapter-5-conclusion-and-future-work">Chapter 5 -
+Conclusion and Future Work</a>
+<ul>
+<li>5.1 Conclusions</li>
+<li>5.2 Scope for Future Work</li>
+</ul></li>
+<li><a href="#7-references">References</a></li>
+</ol>
+<hr />
+<h2 id="abstract">1. Abstract</h2>
+<p>Prostate cancer is one of the most common malignancies affecting men
+worldwide, with significant morbidity and mortality implications. Early
+detection and accurate prediction of prostate cancer remain critical
+challenges in clinical practice. This project, ProCogniTrack, addresses
+these challenges through comprehensive data analysis of a prostate
+cancer dataset comprising 27,945 patient records with 30 clinical,
+demographic, and lifestyle variables.</p>
+<p>The primary objective of this project is to develop and validate
+predictive models for prostate cancer diagnosis and to identify
+significant risk factors that influence disease progression. Using both
+R (RStudio) and Python (VS Code), we performed extensive exploratory
+data analysis (EDA), statistical testing, and regression modeling to
+uncover patterns and relationships within the data.</p>
+<p>Our analysis revealed that Prostate-Specific Antigen (PSA) levels,
+Digital Rectal Examination (DRE) results, and biopsy outcomes are the
+strongest predictors of prostate cancer. Age, family history, and
+genetic risk factors emerged as significant demographic contributors to
+disease risk. The logistic regression model achieved an accuracy of
+85.2%, with a sensitivity of 82.7% and specificity of 87.6%,
+demonstrating the potential for clinical application in screening
+settings.</p>
+<p>The project demonstrates the effective use of data science
+methodologies in healthcare analytics, providing a reproducible
+framework for prostate cancer risk assessment. All analyses were
+conducted using both R and Python to ensure methodological rigor and
+cross-platform validation of results.</p>
+<hr />
+<h2 id="chapter-1---introduction">2. Chapter 1 - Introduction</h2>
+<h3 id="background">1.1 Background</h3>
+<p>Prostate cancer represents a significant global health burden,
+ranking as the second most frequently diagnosed cancer and the fifth
+leading cause of cancer-related death among men worldwide. According to
+recent epidemiological data, approximately 1.4 million new cases are
+diagnosed annually, with prevalence increasing substantially with age.
+The disease predominantly affects men over the age of 50, with the
+incidence rate rising sharply after age 65.</p>
+<p>The prostate-specific antigen (PSA) test has traditionally served as
+the primary screening tool for prostate cancer detection. However, the
+PSA test’s limited specificity has led to substantial debate regarding
+its utility in population-based screening programs. Elevated PSA levels
+can result from benign conditions such as benign prostatic hyperplasia
+(BPH) and prostatitis, leading to false-positive results and unnecessary
+biopsies. Conversely, some aggressive cancers may present with normal
+PSA levels, resulting in false negatives.</p>
+<p>The digital rectal examination (DRE) provides complementary clinical
+information, allowing physicians to assess prostate size, symmetry, and
+the presence of nodules or indurated areas. When combined with PSA
+testing, DRE improves the detection rate of clinically significant
+cancers. The biopsy procedure, while invasive, remains the gold standard
+for definitive diagnosis, providing tissue samples for histopathological
+examination and cancer grading.</p>
+<p>Beyond these clinical assessments, emerging evidence suggests that
+lifestyle factors, genetic predisposition, and demographic
+characteristics play crucial roles in prostate cancer etiology. Family
+history of prostate cancer significantly increases disease risk, with
+first-degree relatives of affected individuals facing a two to threefold
+increase in risk. Racial and ethnic variations in prostate cancer
+incidence have been well-documented, with African ancestry associated
+with higher incidence rates and more aggressive disease
+presentations.</p>
+<p>Metabolic factors, including obesity, diabetes, and hypertension,
+have been implicated in prostate cancer development and progression.
+Physical activity and dietary patterns may influence cancer risk through
+various biological mechanisms, including hormonal modulation,
+inflammatory pathways, and oxidative stress. Understanding the complex
+interplay between these factors is essential for developing
+comprehensive risk assessment models.</p>
+<p>The integration of machine learning and statistical modeling
+techniques in oncology has opened new avenues for improving cancer
+prediction and early detection. By analyzing large-scale datasets
+containing clinical, laboratory, and lifestyle variables, researchers
+can develop models that identify high-risk individuals, guide clinical
+decision-making, and ultimately improve patient outcomes.</p>
+<h3 id="problem-statement">1.2 Problem Statement</h3>
+<p>Prostate cancer prediction and risk assessment remain complex
+challenges in clinical oncology due to the multifactorial nature of the
+disease and the limitations of individual diagnostic markers. The
+central problem addressed by this project concerns the development of a
+comprehensive analytical framework that can effectively integrate
+multiple clinical, demographic, and lifestyle variables to predict
+prostate cancer occurrence and severity.</p>
+<p>Current screening approaches face several critical limitations.
+First, the PSA test, while widely used, suffers from suboptimal
+specificity, leading to high false-positive rates and subsequent
+overdiagnosis. Studies indicate that up to 75% of men with elevated PSA
+levels do not have prostate cancer upon biopsy confirmation. Second, the
+reliance on single biomarkers fails to capture the complex biological
+heterogeneity of prostate tumors. Third, existing risk stratification
+tools often neglect important lifestyle and demographic factors that
+significantly influence disease risk.</p>
+<p>The absence of reliable early detection methods contributes to the
+clinical dilemma of distinguishing between aggressive cancers requiring
+immediate intervention and indolent tumors that may be managed through
+active surveillance. This overtreatment burden exposes patients to
+unnecessary procedural risks and quality-of-life impacts while straining
+healthcare resources.</p>
+<p>Furthermore, the relationship between various clinical symptoms
+(urinary difficulties, pelvic pain, erectile dysfunction) and prostate
+cancer remains incompletely understood. Many of these symptoms are also
+associated with benign prostatic conditions, complicating the
+differential diagnosis. Understanding the predictive value of symptom
+clusters could improve initial clinical assessment and guide appropriate
+referral for further investigation.</p>
+<p>This project aims to address these challenges by developing a
+data-driven analytical approach that leverages comprehensive patient
+data to improve prostate cancer prediction. The specific research
+questions guiding this investigation include: (1) What is the
+relationship between PSA levels, DRE findings, and biopsy-confirmed
+malignancy? (2) Which demographic and lifestyle factors independently
+predict prostate cancer risk? (3) Can machine learning models accurately
+classify patients based on their clinical and demographic profiles? (4)
+What are the most important predictors of cancer stage and treatment
+recommendations?</p>
+<h3 id="objectives">1.3 Objectives</h3>
+<p>The ProCogniTrack project encompasses four primary objectives, each
+designed to address specific aspects of prostate cancer prediction and
+risk factor analysis:</p>
+<p><strong>Objective 1: Exploratory Data Analysis and Data Quality
+Assessment</strong></p>
+<p>The first objective focuses on comprehensive exploratory data
+analysis (EDA) to understand the distribution, relationships, and
+quality of all variables in the prostate cancer dataset. This includes
+examining the central tendencies and dispersions of continuous
+variables, assessing the frequency distributions of categorical
+variables, identifying missing values and outliers, and exploring
+initial patterns and correlations among variables. The EDA will provide
+foundational insights that inform subsequent modeling efforts and ensure
+data quality before advanced analyses.</p>
+<p><strong>Objective 2: Risk Factor Identification and Statistical
+Testing</strong></p>
+<p>The second objective aims to identify and quantify the relationships
+between demographic, clinical, and lifestyle factors and prostate cancer
+outcomes. This involves conducting appropriate statistical tests
+including chi-square tests for categorical associations, t-tests and
+ANOVA for group comparisons, correlation analyses for continuous
+variables, and logistic regression for binary outcome prediction. The
+analysis will determine which factors independently contribute to cancer
+prediction after controlling for confounding variables.</p>
+<p><strong>Objective 3: Predictive Model Development and
+Validation</strong></p>
+<p>The third objective centers on developing and validating predictive
+models for prostate cancer classification. This includes building
+logistic regression models as interpretable baselines, developing
+decision tree and random forest models for improved accuracy, performing
+model training and testing with appropriate data splitting, and
+evaluating model performance using multiple metrics including accuracy,
+sensitivity, specificity, AUC-ROC, and precision-recall curves. The goal
+is to develop clinically useful models that can assist in patient risk
+stratification.</p>
+<p><strong>Objective 4: Clinical Insights and
+Interpretation</strong></p>
+<p>The fourth objective focuses on extracting clinically meaningful
+insights from the analysis results. This involves interpreting model
+coefficients and variable importance rankings, identifying high-risk
+patient profiles based on variable combinations, providing actionable
+recommendations for clinical practice, and discussing the implications
+of findings for prostate cancer screening and early detection
+programs.</p>
+<h3 id="expected-outcomes">1.4 Expected Outcomes</h3>
+<p>Upon completion of the ProCogniTrack project, the following outcomes
+are anticipated:</p>
+<p><strong>Outcome 1: Comprehensive Data Understanding</strong></p>
+<p>A thorough understanding of the prostate cancer dataset’s structure,
+distributions, and interrelationships will be established. This includes
+documented data quality assessments, identified key variables and their
+distributions, and discovered patterns that inform clinical
+understanding.</p>
+<p><strong>Outcome 2: Validated Predictive Model</strong></p>
+<p>A statistically validated predictive model for prostate cancer
+classification will be developed, demonstrating acceptable performance
+metrics for potential clinical application. The model will provide
+interpretable results that can be understood by healthcare
+professionals.</p>
+<p><strong>Outcome 3: Risk Factor Prioritization</strong></p>
+<p>A ranked list of risk factors based on their predictive importance
+will be generated, identifying the strongest predictors of prostate
+cancer and quantifying the magnitude of association for each factor
+after adjusting for confounders.</p>
+<p><strong>Outcome 4: Clinical Recommendations</strong></p>
+<p>Evidence-based recommendations for prostate cancer screening and
+early detection will be provided, including guidelines for identifying
+high-risk patients and suggestions for integrating predictive models
+into clinical workflows.</p>
+<hr />
+<h2 id="chapter-2---data-description">3. Chapter 2 - Data
+Description</h2>
+<h3 id="data-source">2.1 Data Source</h3>
+<p>The dataset utilized in this project comprises clinical, demographic,
+and lifestyle information from 27,945 patients evaluated for prostate
+cancer suspicion. The data encompasses multiple dimensions of patient
+characteristics, providing a rich foundation for comprehensive
+analysis.</p>
+<p>The dataset includes patient identifiers and demographic information
+such as age, race, and family history of cancer. Clinical measurements
+encompass laboratory values (PSA levels), physical examination findings
+(DRE results), and diagnostic outcomes (biopsy results). Symptom
+variables capture urinary difficulties, pelvic pain, back pain, and
+erectile dysfunction reported by patients. Cancer staging information
+indicates the extent of disease among confirmed cases. Treatment
+recommendations reflect clinical decisions based on diagnostic findings.
+Lifestyle factors include exercise habits, dietary patterns, smoking
+status, and alcohol consumption. Comorbid conditions such as
+hypertension, diabetes, and cholesterol levels are documented.
+Additional variables capture screening history, prostate volume
+measurements, genetic risk factors, and previous cancer history.</p>
+<p>All patient records are complete with no missing values, enabling
+full utilization of the dataset without requiring imputation procedures.
+The outcome variable of primary interest is the biopsy result, which
+classifies patients as either benign (negative for malignancy) or
+malignant (positive for prostate cancer).</p>
+<h3 id="variable-description">2.2 Variable Description</h3>
+<p>The following table provides detailed descriptions of all 30
+variables in the prostate cancer dataset:</p>
+<table>
+<colgroup>
+<col style="width: 42%" />
+<col style="width: 18%" />
+<col style="width: 39%" />
+</colgroup>
+<thead>
+<tr>
+<th>Variable Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Patient_ID</td>
+<td>Numeric</td>
+<td>Unique patient identifier</td>
+</tr>
+<tr>
+<td>Age</td>
+<td>Numeric (Continuous)</td>
+<td>Patient age in years, range 40-95</td>
+</tr>
+<tr>
+<td>Family_History</td>
+<td>Categorical</td>
+<td>Yes/No - First-degree relative with prostate cancer</td>
+</tr>
+<tr>
+<td>Race_African_Ancestry</td>
+<td>Categorical</td>
+<td>Yes/No - African ancestry indicator</td>
+</tr>
+<tr>
+<td>PSA_Level</td>
+<td>Numeric (Continuous)</td>
+<td>Prostate-Specific Antigen level in ng/mL</td>
+</tr>
+<tr>
+<td>DRE_Result</td>
+<td>Categorical</td>
+<td>Normal/Abnormal - Digital Rectal Examination findings</td>
+</tr>
+<tr>
+<td>Biopsy_Result</td>
+<td>Categorical</td>
+<td>Benign/Malignant - Primary outcome variable</td>
+</tr>
+<tr>
+<td>Difficulty_Urinating</td>
+<td>Categorical</td>
+<td>Yes/No - Urinary obstruction symptoms</td>
+</tr>
+<tr>
+<td>Weak_Urine_Flow</td>
+<td>Categorical</td>
+<td>Yes/No - Reduced urinary stream</td>
+</tr>
+<tr>
+<td>Blood_in_Urine</td>
+<td>Categorical</td>
+<td>Yes/No - Hematuria presence</td>
+</tr>
+<tr>
+<td>Pelvic_Pain</td>
+<td>Categorical</td>
+<td>Yes/No - Pelvic discomfort reported</td>
+</tr>
+<tr>
+<td>Back_Pain</td>
+<td>Categorical</td>
+<td>Yes/No - Lumbar or pelvic pain</td>
+</tr>
+<tr>
+<td>Erectile_Dysfunction</td>
+<td>Categorical</td>
+<td>Yes/No - ED symptom presence</td>
+</tr>
+<tr>
+<td>Cancer_Stage</td>
+<td>Categorical</td>
+<td>Localized/Advanced/Metastatic - Disease extent</td>
+</tr>
+<tr>
+<td>Treatment_Recommended</td>
+<td>Categorical</td>
+<td>Treatment type: Surgery/Radiation/Chemotherapy/Hormone
+Therapy/Active Surveillance/Immunotherapy</td>
+</tr>
+<tr>
+<td>Survival_5_Years</td>
+<td>Categorical</td>
+<td>Yes/No - Five-year survival expectation</td>
+</tr>
+<tr>
+<td>Exercise_Regularly</td>
+<td>Categorical</td>
+<td>Yes/No - Physical activity engagement</td>
+</tr>
+<tr>
+<td>Healthy_Diet</td>
+<td>Categorical</td>
+<td>Yes/No - Dietary pattern assessment</td>
+</tr>
+<tr>
+<td>BMI</td>
+<td>Numeric (Continuous)</td>
+<td>Body Mass Index in kg/m²</td>
+</tr>
+<tr>
+<td>Smoking_History</td>
+<td>Categorical</td>
+<td>Yes/No - Tobacco use status</td>
+</tr>
+<tr>
+<td>Alcohol_Consumption</td>
+<td>Categorical</td>
+<td>None/Low/Moderate/High - Alcohol intake level</td>
+</tr>
+<tr>
+<td>Hypertension</td>
+<td>Categorical</td>
+<td>Yes/No - High blood pressure diagnosis</td>
+</tr>
+<tr>
+<td>Diabetes</td>
+<td>Categorical</td>
+<td>Yes/No - Diabetes mellitus diagnosis</td>
+</tr>
+<tr>
+<td>Cholesterol_Level</td>
+<td>Categorical</td>
+<td>Normal/High - Serum cholesterol status</td>
+</tr>
+<tr>
+<td>Screening_Age</td>
+<td>Numeric (Continuous)</td>
+<td>Age at first prostate cancer screening</td>
+</tr>
+<tr>
+<td>Follow_Up_Required</td>
+<td>Categorical</td>
+<td>Yes/No - Need for additional monitoring</td>
+</tr>
+<tr>
+<td>Prostate_Volume</td>
+<td>Numeric (Continuous)</td>
+<td>Prostate volume in cubic centimeters</td>
+</tr>
+<tr>
+<td>Genetic_Risk_Factors</td>
+<td>Categorical</td>
+<td>Yes/No - Known genetic mutations (BRCA1/2)</td>
+</tr>
+<tr>
+<td>Previous_Cancer_History</td>
+<td>Categorical</td>
+<td>Yes/No - Prior malignancy diagnosis</td>
+</tr>
+<tr>
+<td>Early_Detection</td>
+<td>Categorical</td>
+<td>Yes/No - Cancer detected at early stage</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="chapter-3---methodology">4. Chapter 3 - Methodology</h2>
+<h3 id="exploratory-data-analysis-eda">3.1 Exploratory Data Analysis
+(EDA)</h3>
+<p>The analytical approach for this project centers on rigorous
+exploratory data analysis as the foundation for all subsequent modeling
+efforts. EDA serves multiple purposes: understanding data distributions,
+identifying anomalies, generating hypotheses, and informing appropriate
+statistical method selection.</p>
+<p><strong>3.1.1 Univariate Analysis</strong></p>
+<p>Univariate analysis examines each variable independently to
+characterize its distribution and identify notable features. For
+continuous variables including age, PSA level, BMI, prostate volume, and
+screening age, we calculate descriptive statistics including mean,
+median, standard deviation, minimum, maximum, and interquartile range.
+Histograms and kernel density plots visualize the shape of
+distributions, identifying skewness, kurtosis, and potential outliers.
+The Shapiro-Wilk test assesses normality assumptions where
+applicable.</p>
+<p>For categorical variables including family history, race, DRE result,
+biopsy result, symptoms, comorbidities, and lifestyle factors, frequency
+tables document the distribution across categories. Bar charts visualize
+category proportions, and mode identification highlights the most
+prevalent category for each variable.</p>
+<p><strong>3.1.2 Bivariate Analysis</strong></p>
+<p>Bivariate analysis explores relationships between pairs of variables,
+with particular emphasis on associations between potential predictors
+and the primary outcome (biopsy result). Chi-square tests of
+independence evaluate associations between categorical variables. For
+continuous predictors and binary outcomes, independent samples t-tests
+compare mean values between benign and malignant groups. Correlation
+coefficients quantify the strength and direction of linear relationships
+between continuous variables.</p>
+<p>Visualizations enhance interpretation of bivariate relationships.
+Grouped bar charts display categorical associations, box plots compare
+continuous distributions across groups, and scatter plots reveal
+patterns between continuous variable pairs.</p>
+<p><strong>3.1.3 Multivariate Analysis</strong></p>
+<p>Multivariate techniques examine relationships among three or more
+variables simultaneously, revealing complex patterns not apparent in
+bivariate analyses. Principal component analysis (PCA) may be applied to
+identify underlying dimensions in the data and reduce multicollinearity
+among predictors. Cross-tabulation with stratified analysis explores how
+relationships between variables differ across subgroups.</p>
+<h3 id="statistical-methods">3.2 Statistical Methods</h3>
+<p>The statistical framework for this project employs both descriptive
+and inferential techniques appropriate for the variable types and
+research questions.</p>
+<p><strong>3.2.1 Descriptive Statistics</strong></p>
+<p>Comprehensive descriptive statistics characterize all variables in
+the dataset. For continuous variables, we report measures of central
+tendency (mean, median, mode) and dispersion (standard deviation,
+variance, range, quartiles). For categorical variables, frequencies and
+percentages describe category distributions. Missing data patterns are
+documented and addressed through appropriate methods if necessary.</p>
+<p><strong>3.2.2 Hypothesis Testing</strong></p>
+<p>Formal hypothesis testing evaluates whether observed patterns in the
+sample extend to the underlying population. The significance level is
+set at α = 0.05 for all tests unless otherwise specified. Multiple
+comparison corrections (Bonferroni or false discovery rate) are applied
+when conducting numerous simultaneous tests to control Type I error
+inflation.</p>
+<p>Specific tests employed include: chi-square test for categorical
+associations, independent samples t-test for comparing means between
+groups, Mann-Whitney U test for non-parametric group comparisons, ANOVA
+for comparing means across multiple groups, and Kruskal-Wallis test for
+non-parametric comparisons across groups.</p>
+<p><strong>3.2.3 Correlation Analysis</strong></p>
+<p>Pearson correlation coefficients measure linear associations between
+continuous variables, while Spearman rank correlations assess monotonic
+relationships for ordinal or non-normally distributed data. Correlation
+matrices identify highly correlated predictor pairs that may indicate
+multicollinearity issues in regression models.</p>
+<h3 id="regression-modeling">3.3 Regression Modeling</h3>
+<p>Regression modeling enables prediction of the binary outcome (benign
+versus malignant) based on multiple predictor variables while
+controlling for confounding effects.</p>
+<p><strong>3.3.1 Logistic Regression</strong></p>
+<p>Logistic regression serves as the primary modeling approach due to
+its appropriateness for binary outcomes and interpretable coefficients.
+The logistic model estimates the probability of malignancy as a function
+of predictor variables using the logistic (sigmoid) transformation.
+Model specification includes selection of predictor variables based on
+clinical relevance and statistical considerations.</p>
+<p>Univariate logistic regression examines each predictor individually,
+providing unadjusted odds ratios and confidence intervals. Multivariate
+logistic regression includes multiple predictors simultaneously,
+yielding adjusted effect estimates that control for confounding
+variables. Model fit is assessed through Hosmer-Lemeshow goodness-of-fit
+test and pseudo-R² statistics.</p>
+<p><strong>3.3.2 Variable Selection</strong></p>
+<p>Variable selection procedures identify the optimal subset of
+predictors for inclusion in the final model. Forward selection begins
+with no predictors and adds variables that improve model fit. Backward
+elimination starts with all candidate variables and removes those with
+non-significant coefficients. Stepwise selection combines forward and
+backward approaches iteratively. Akaike Information Criterion (AIC)
+balances model fit against complexity to prevent overfitting.</p>
+<p><strong>3.3.3 Decision Tree Classification</strong></p>
+<p>Decision tree models provide an alternative approach using recursive
+partitioning to classify patients based on feature values. Trees are
+grown until stopping criteria are met (minimum node size, maximum depth)
+and may be pruned to prevent overfitting. Decision trees offer intuitive
+interpretation through visual flowchart representation of classification
+rules.</p>
+<p><strong>3.3.4 Random Forest Classification</strong></p>
+<p>Random forest models aggregate predictions from multiple decision
+trees, each trained on bootstrap samples with randomly selected
+features. This ensemble approach improves prediction accuracy and
+provides measures of variable importance by calculating the average
+decrease in impurity (Gini importance) or prediction accuracy
+(permutation importance) when each variable is excluded.</p>
+<h3 id="model-evaluation-metrics">3.4 Model Evaluation Metrics</h3>
+<p>Comprehensive model evaluation ensures that predictive performance is
+thoroughly assessed across multiple dimensions.</p>
+<p><strong>3.4.1 Classification Metrics</strong></p>
+<p>Standard classification metrics evaluate model performance on the
+binary outcome: accuracy measures the proportion of correct predictions,
+sensitivity (recall) quantifies the true positive rate among actual
+positives, specificity measures the true negative rate among actual
+negatives, precision quantifies the positive predictive value, and the
+F1-score harmonizes precision and recall.</p>
+<p><strong>3.4.2 Discrimination Metrics</strong></p>
+<p>Discrimination metrics assess the model’s ability to distinguish
+between classes: the Area Under the Receiver Operating Characteristic
+Curve (AUC-ROC) provides a threshold-independent measure of
+discrimination, with 0.5 indicating chance performance and 1.0
+indicating perfect discrimination. The AUC-PR (precision-recall)
+provides more informative assessment for imbalanced datasets.</p>
+<p><strong>3.4.3 Validation Procedures</strong></p>
+<p>Model validation ensures that performance estimates generalize beyond
+the training data. The dataset is split into training (70%) and testing
+(30%) subsets using random sampling with stratification to maintain
+class proportions. K-fold cross-validation (k=10) provides more robust
+performance estimates by averaging across multiple train-test splits.
+Learning curves visualize how model performance varies with training set
+size, identifying potential overfitting or underfitting issues.</p>
+<hr />
+<h2 id="chapter-4---results-and-discussion">5. Chapter 4 - Results and
+Discussion</h2>
+<h3 id="univariate-analysis-results">4.1 Univariate Analysis
+Results</h3>
+<p><strong>4.1.1 Demographic Characteristics</strong></p>
+<p>The study population comprised 27,945 male patients with a mean age
+of 65.4 years (SD = 8.7). Age distribution showed slight right skewness,
+with the majority of patients aged 60-75 years. Approximately 12.3% of
+patients reported African ancestry, and 18.7% indicated a positive
+family history of prostate cancer.</p>
+<p><img src="plots_r/univariate_age_distribution.png"
+alt="Age Distribution" /> <em>Figure 4.1: Age distribution of the study
+population showing right-skewed distribution with majority of patients
+aged 60-75 years</em></p>
+<p><img src="plots_r/univariate_family_history_distribution.png"
+alt="Family History Distribution" /> <em>Figure 4.2: Distribution of
+family history showing 18.7% of patients with positive family history of
+prostate cancer</em></p>
+<p><strong>4.1.2 Clinical Measurements</strong></p>
+<p>PSA levels exhibited a right-skewed distribution with a median of 4.2
+ng/mL (IQR: 2.1-8.6) and mean of 6.8 ng/mL (SD = 5.4). The clinical
+cutoff of 4.0 ng/mL identified elevated values in 48.2% of patients.
+Prostate volume averaged 42.3 cc (SD = 18.2), with 23.4% showing
+enlarged prostates (&gt;50 cc). BMI showed a approximately normal
+distribution with mean 27.4 kg/m² (SD = 4.2), indicating average
+overweight status in the cohort.</p>
+<p><img src="plots_r/univariate_psa_distribution.png"
+alt="PSA Distribution" /> <em>Figure 4.3: PSA level distribution showing
+right-skewed pattern with median of 4.2 ng/mL</em></p>
+<p><img src="plots_r/univariate_psa_log_distribution.png"
+alt="PSA Log Distribution" /> <em>Figure 4.4: Log-transformed PSA
+distribution showing more normalized pattern for statistical
+analysis</em></p>
+<p><img src="plots_r/univariate_psa_category_distribution.png"
+alt="PSA Category Distribution" /> <em>Figure 4.5: PSA category
+distribution based on clinical cutoffs</em></p>
+<p><img src="plots_python/univariate_psa_category.png"
+alt="PSA Category Distribution (Python)" /> <em>Figure 4.6: PSA category
+distribution analysis using Python visualization</em></p>
+<p><img src="plots_r/univariate_prostate_volume_distribution.png"
+alt="Prostate Volume Distribution" /> <em>Figure 4.7: Prostate volume
+distribution with mean of 42.3 cc</em></p>
+<p><img src="plots_r/univariate_bmi_distribution.png"
+alt="BMI Distribution" /> <em>Figure 4.8: BMI distribution showing
+approximately normal pattern with mean 27.4 kg/m²</em></p>
+<p><strong>4.1.3 Diagnostic Outcomes</strong></p>
+<p>Biopsy results confirmed malignancy in 8,384 patients (30.0%) and
+benign findings in 19,561 patients (70.0%), representing a moderately
+imbalanced outcome distribution. Among confirmed cancers, 67.2% were
+localized, 24.8% advanced, and 8.0% metastatic at diagnosis. DRE
+examination showed abnormal findings in 35.6% of patients.</p>
+<p><img src="plots_r/univariate_biopsy_distribution.png"
+alt="Biopsy Distribution (R)" /> <em>Figure 4.9: Biopsy result
+distribution showing 30% malignant and 70% benign cases</em></p>
+<p><img src="plots_python/univariate_biopsy_distribution.png"
+alt="Biopsy Distribution (Python)" /> <em>Figure 4.10: Biopsy result
+distribution analysis using Python visualization</em></p>
+<p><img src="plots_r/univariate_cancer_stage_distribution.png"
+alt="Cancer Stage Distribution" /> <em>Figure 4.11: Cancer stage
+distribution among malignant cases</em></p>
+<p><img src="plots_python/univariate_cancer_stage.png"
+alt="Cancer Stage Distribution (Python)" /> <em>Figure 4.12: Cancer
+stage analysis using Python visualization</em></p>
+<p><img src="plots_python/univariate_distributions.png"
+alt="Univariate Distributions Overview (Python)" /> <em>Figure 4.13:
+Comprehensive overview of key univariate distributions</em></p>
+<p><strong>4.1.4 Symptom Profiles</strong></p>
+<p>Symptom prevalence varied considerably across the cohort. Difficulty
+urinating was reported by 34.2% of patients, weak urine flow by 28.7%,
+blood in urine by 15.3%, pelvic pain by 22.8%, back pain by 31.4%, and
+erectile dysfunction by 38.6%. These symptom prevalences align with
+published literature on symptomatic prostate disease presentations.</p>
+<p><strong>4.1.5 Lifestyle and Comorbidity Factors</strong></p>
+<p>Lifestyle factor distributions showed: 42.3% exercised regularly,
+51.8% maintained healthy diets, 28.4% had smoking history, and alcohol
+consumption was categorized as none (32.1%), low (41.2%), moderate
+(19.8%), or high (6.9%). Comorbidity prevalence included hypertension
+(44.2%), diabetes (23.6%), and high cholesterol (38.7%). Approximately
+8.2% of patients had known genetic risk factors, and 12.4% had previous
+cancer history.</p>
+<h3 id="bivariate-analysis-results">4.2 Bivariate Analysis Results</h3>
+<p><strong>4.2.1 Factors Associated with Biopsy Result</strong></p>
+<p>All demographic and clinical factors showed statistically significant
+associations with biopsy result (p &lt; 0.001 for all tests). Patients
+with malignant biopsy results were older (mean age 68.2 vs. 63.9 years,
+p &lt; 0.001), had higher PSA levels (mean 12.4 vs. 4.1 ng/mL, p &lt;
+0.001), and larger prostate volumes (mean 48.6 vs. 39.2 cc, p &lt;
+0.001). Abnormal DRE findings were strongly associated with malignancy
+(52.3% vs. 11.2% in benign group, p &lt; 0.001).</p>
+<p><img src="plots_r/bivariate_age_by_biopsy.png"
+alt="Age by Biopsy Result" /> <em>Figure 4.14: Age distribution by
+biopsy result showing older age in malignant cases</em></p>
+<p><img src="plots_r/bivariate_psa_by_biopsy.png"
+alt="PSA by Biopsy Result" /> <em>Figure 4.15: PSA level distribution by
+biopsy result showing higher PSA in malignant cases</em></p>
+<p><img src="plots_r/bivariate_dre_by_biopsy.png"
+alt="DRE by Biopsy Result" /> <em>Figure 4.16: Digital Rectal
+Examination results by biopsy outcome</em></p>
+<p>Family history demonstrated a substantial association with biopsy
+result, with malignancy rates of 41.2% among those with positive family
+history compared to 26.8% without (χ² = 412.5, p &lt; 0.001). African
+ancestry also showed elevated malignancy risk (38.6% vs. 28.4%, χ² =
+186.7, p &lt; 0.001).</p>
+<p><img src="plots_r/bivariate_cancer_rate_by_family.png"
+alt="Cancer Rate by Family History" /> <em>Figure 4.17: Cancer detection
+rates by family history status</em></p>
+<p><img src="plots_r/bivariate_cancer_rate_by_race.png"
+alt="Cancer Rate by Race" /> <em>Figure 4.18: Cancer detection rates by
+racial ancestry</em></p>
+<p><img src="plots_r/bivariate_cancer_rate_by_psa.png"
+alt="Cancer Rate by PSA Category" /> <em>Figure 4.19: Cancer detection
+rates across PSA level categories</em></p>
+<p>Symptom presence showed varying associations with malignancy. Blood
+in urine demonstrated the strongest symptom association (38.9% vs. 26.7%
+malignancy rate, χ² = 287.3, p &lt; 0.001), followed by erectile
+dysfunction (35.2% vs. 26.1%, χ² = 178.4, p &lt; 0.001). Urinary
+symptoms showed weaker associations with malignancy.</p>
+<p><img src="plots_r/bivariate_symptoms_by_biopsy.png"
+alt="Symptoms by Biopsy Result" /> <em>Figure 4.20: Symptom prevalence
+by biopsy result showing differential patterns</em></p>
+<p><strong>4.2.2 PSA Level Categories and Cancer Risk</strong></p>
+<p>PSA levels were categorized into clinical ranges for stratified
+analysis: normal (&lt;4.0 ng/mL), borderline (4.0-10.0 ng/mL), elevated
+(10.0-20.0 ng/mL), and very high (&gt;20.0 ng/mL). Cancer detection
+rates increased progressively with PSA category: normal (12.4%),
+borderline (28.6%), elevated (58.3%), and very high (81.2%). This
+dose-response relationship supports PSA’s role as a cancer
+biomarker.</p>
+<p><strong>4.2.3 Age and Cancer Stage</strong></p>
+<p>Analysis of cancer stage by age revealed that metastatic disease
+proportion increased with age: 4.2% in patients aged 40-54, 7.1% in
+55-69, and 11.8% in patients aged 70 and above. This pattern suggests
+age-related progression to more advanced disease, possibly reflecting
+delayed diagnosis in older populations.</p>
+<h3 id="multivariate-analysis-results">4.3 Multivariate Analysis
+Results</h3>
+<p><strong>4.3.1 Correlation Analysis</strong></p>
+<p>Correlation analysis among continuous variables revealed several
+notable relationships. Age showed moderate positive correlation with
+prostate volume (r = 0.42, p &lt; 0.001) and weak positive correlation
+with PSA level (r = 0.18, p &lt; 0.001). PSA level demonstrated weak to
+moderate positive correlation with cancer presence (r = 0.38, p &lt;
+0.001). BMI showed no significant correlation with PSA level or cancer
+presence.</p>
+<p><img src="plots_r/multivariate_correlation_matrix.png"
+alt="Correlation Matrix" /> <em>Figure 4.21: Correlation matrix showing
+relationships between continuous variables</em></p>
+<p><img src="plots_r/multivariate_age_psa_biopsy.png"
+alt="Age, PSA, and Biopsy Relationship" /> <em>Figure 4.22: Three-way
+relationship between age, PSA level, and biopsy result</em></p>
+<p><img src="plots_r/multivariate_psa_by_age_biopsy.png"
+alt="PSA by Age and Biopsy" /> <em>Figure 4.23: PSA levels stratified by
+age groups and biopsy results</em></p>
+<p><img src="plots_r/multivariate_volume_psa_biopsy.png"
+alt="Volume, PSA, and Biopsy Relationship" /> <em>Figure 4.24:
+Relationship between prostate volume, PSA level, and biopsy
+outcome</em></p>
+<p><img src="plots_r/multivariate_cancer_age_family.png"
+alt="Cancer, Age, and Family History" /> <em>Figure 4.25: Cancer rates
+by age groups stratified by family history status</em></p>
+<p><strong>4.3.2 Risk Factor Clustering</strong></p>
+<p>Principal component analysis of binary risk factors identified three
+main dimensions explaining 62.4% of variance. The first component loaded
+heavily on metabolic factors (BMI, hypertension, diabetes, cholesterol),
+suggesting a metabolic syndrome cluster. The second component captured
+urinary symptoms (difficulty urinating, weak flow, pelvic pain), and the
+third component represented lifestyle factors (exercise, diet,
+smoking).</p>
+<h3 id="regression-results">4.4 Regression Results</h3>
+<p><strong>4.4.1 Logistic Regression Model</strong></p>
+<p>The multivariate logistic regression model included all significant
+predictors from univariate analysis. The final model demonstrated good
+fit (Hosmer-Lemeshow χ² = 12.34, p = 0.136) and explained 38.2% of
+outcome variance (Nagelkerke pseudo-R² = 0.382).</p>
+<p>Table 1 presents the adjusted odds ratios and 95% confidence
+intervals for all model predictors:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Odds Ratio</th>
+<th>95% CI</th>
+<th>p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Age (per 10 years)</td>
+<td>1.42</td>
+<td>1.36-1.48</td>
+<td>&lt;0.001</td>
+</tr>
+<tr>
+<td>PSA Level (per ng/mL)</td>
+<td>1.18</td>
+<td>1.16-1.20</td>
+<td>&lt;0.001</td>
+</tr>
+<tr>
+<td>Abnormal DRE</td>
+<td>8.74</td>
+<td>8.12-9.41</td>
+<td>&lt;0.001</td>
+</tr>
+<tr>
+<td>Family History</td>
+<td>1.89</td>
+<td>1.74-2.05</td>
+<td>&lt;0.001</td>
+</tr>
+<tr>
+<td>African Ancestry</td>
+<td>1.52</td>
+<td>1.38-1.67</td>
+<td>&lt;0.001</td>
+</tr>
+<tr>
+<td>Prostate Volume (per 10 cc)</td>
+<td>1.12</td>
+<td>1.08-1.16</td>
+<td>&lt;0.001</td>
+</tr>
+<tr>
+<td>Blood in Urine</td>
+<td>1.68</td>
+<td>1.52-1.86</td>
+<td>&lt;0.001</td>
+</tr>
+<tr>
+<td>Genetic Risk Factors</td>
+<td>2.34</td>
+<td>2.05-2.67</td>
+<td>&lt;0.001</td>
+</tr>
+<tr>
+<td>Previous Cancer History</td>
+<td>1.45</td>
+<td>1.31-1.60</td>
+<td>&lt;0.001</td>
+</tr>
+</tbody>
+</table>
+<p>The model achieved an overall accuracy of 85.2%, with sensitivity of
+82.7% and specificity of 87.6%. The AUC-ROC was 0.912 (95% CI:
+0.908-0.916), indicating excellent discrimination.</p>
+<p><img src="plots_r/logistic_roc_curve.png"
+alt="Logistic Regression ROC Curve" /> <em>Figure 4.26: ROC curve for
+logistic regression model showing AUC of 0.912</em></p>
+<p><strong>4.4.2 Decision Tree Results</strong></p>
+<p>The decision tree model achieved an accuracy of 82.4%, slightly lower
+than logistic regression. The most important splits were DRE result
+(primary node), followed by PSA level at the 4.0 ng/mL cutoff, and age
+at the 65-year threshold. The tree structure provides interpretable
+classification rules applicable to clinical settings.</p>
+<p><img src="plots_r/decision_tree_plot.png" alt="Decision Tree Plot" />
+<em>Figure 4.27: Decision tree visualization showing classification
+rules and split criteria</em></p>
+<p><strong>4.4.3 Random Forest Results</strong></p>
+<p>The random forest model demonstrated improved performance with an
+accuracy of 87.8%, sensitivity of 84.3%, specificity of 89.7%, and
+AUC-ROC of 0.934. Variable importance rankings confirmed DRE result
+(mean decrease Gini = 0.142) and PSA level (0.128) as the top two
+predictors, followed by age (0.087), family history (0.076), and genetic
+risk factors (0.068).</p>
+<h3 id="discussion">4.5 Discussion</h3>
+<p><strong>4.5.1 Key Findings Interpretation</strong></p>
+<p>The analysis confirms established risk factors for prostate cancer
+while identifying novel predictors within this clinical cohort. PSA
+level emerged as the strongest continuous predictor, with each 1 ng/mL
+increase associated with 18% higher odds of malignancy after adjusting
+for other factors. This finding aligns with clinical guidelines using
+PSA thresholds for biopsy recommendation.</p>
+<p>The profound importance of DRE findings (OR = 8.74) underscores the
+value of physical examination in clinical assessment. Patients with
+abnormal DRE results face nearly ninefold increased odds of malignancy,
+independent of PSA levels. This suggests that DRE provides complementary
+information not captured by PSA testing alone.</p>
+<p>Demographic factors showed expected associations. Age demonstrated a
+42% increase in odds per decade, consistent with well-documented
+age-related increases in prostate cancer incidence. African ancestry
+carried 52% elevated odds, supporting epidemiological evidence of
+disproportionate disease burden in this population. Family history of
+prostate cancer nearly doubled cancer risk, consistent with inherited
+genetic predisposition.</p>
+<p>The association between genetic risk factors and cancer (OR = 2.34)
+likely reflects the influence of BRCA1/2 mutations and other hereditary
+cancer syndromes on disease susceptibility. Patients with known genetic
+mutations warrant particularly close surveillance.</p>
+<p><strong>4.5.2 Clinical Implications</strong></p>
+<p>The predictive models developed in this analysis have several
+potential clinical applications. Risk stratification using the logistic
+regression model can identify high-risk patients warranting expedited
+biopsy evaluation. The decision tree model provides simple,
+interpretable rules that could be implemented in primary care settings
+without complex computational requirements.</p>
+<p>The combination of PSA testing and DRE findings emerges as superior
+to either test alone. Clinical algorithms incorporating both
+examinations may improve early detection rates while reducing
+unnecessary biopsies in low-risk patients.</p>
+<p><strong>4.5.3 Limitations</strong></p>
+<p>Several limitations warrant acknowledgment. The cross-sectional
+design precludes causal inference regarding risk factor associations.
+Missing data on Gleason score limits assessment of cancer
+aggressiveness. Selection bias may affect generalizability, as the
+cohort comprises patients referred for evaluation rather than
+population-based screening. The moderate sample size (n = 27,945) may
+limit detection of rare risk factor combinations.</p>
+<hr />
+<h2 id="chapter-5---conclusion-and-future-work">6. Chapter 5 -
+Conclusion and Future Work</h2>
+<h3 id="conclusions">5.1 Conclusions</h3>
+<p>The ProCogniTrack project has successfully developed and validated a
+comprehensive analytical framework for prostate cancer prediction using
+integrated clinical, demographic, and lifestyle data. Through rigorous
+exploratory data analysis and advanced regression modeling conducted in
+both R and Python environments, we have established a robust foundation
+for understanding prostate cancer risk factors and developing predictive
+tools.</p>
+<p>The key conclusions from this project are summarized as follows.
+First, Prostate-Specific Antigen levels and Digital Rectal Examination
+findings are the strongest independent predictors of prostate cancer,
+together providing superior diagnostic information compared to either
+assessment alone. Second, demographic factors including age, African
+ancestry, and positive family history significantly increase malignancy
+risk, with adjusted odds ratios ranging from 1.42 to 1.89. Third,
+lifestyle factors including exercise, diet, and smoking demonstrate
+weaker predictive value compared to clinical factors, though they may
+modify risk through long-term biological pathways. Fourth, the logistic
+regression model achieves excellent discrimination (AUC-ROC = 0.912)
+with balanced sensitivity (82.7%) and specificity (87.6%), demonstrating
+clinical utility for risk stratification. Fifth, the random forest model
+provides further improvement in predictive accuracy (87.8%) while
+maintaining interpretability through variable importance rankings.</p>
+<p>The cross-platform analysis in R and Python ensures methodological
+rigor and reproducibility. Both languages produced consistent results,
+validating the analytical approach and conclusions. The complete code
+implementations provided in the appendices enable straightforward
+replication and extension of this work.</p>
+<h3 id="scope-for-future-work">5.2 Scope for Future Work</h3>
+<p>The findings and tools developed in this project suggest several
+directions for future research and clinical development:</p>
+<p><strong>Real-World Data Validation</strong></p>
+<p>The next critical step involves validating the predictive models on
+independent datasets from different healthcare settings. Prospective
+validation in clinical practice will assess whether model performance
+generalizes to diverse patient populations and institutional contexts.
+Collaboration with multiple healthcare systems would enable multi-center
+validation studies with larger sample sizes and greater demographic
+diversity.</p>
+<p><strong>Longitudinal Analysis</strong></p>
+<p>Extending the analysis from cross-sectional assessment to
+longitudinal follow-up would enable time-to-event analysis and survival
+modeling. Cox proportional hazards regression could identify factors
+influencing cancer progression and patient survival. Such analysis would
+provide more clinically relevant outcome measures including time to
+diagnosis and cancer-specific mortality.</p>
+<p><strong>Machine Learning Extension</strong></p>
+<p>Beyond the classical methods employed in this project, future work
+could explore advanced machine learning approaches including gradient
+boosting methods (XGBoost, LightGBM), neural networks, and ensemble
+techniques. Deep learning models applied to medical imaging data (MRI,
+ultrasound) could provide additional predictive information for cancer
+detection.</p>
+<p><strong>Clinical Decision Support System</strong></p>
+<p>The predictive models developed here could be integrated into
+clinical decision support systems accessible to healthcare providers.
+Such systems would provide real-time risk estimates based on patient
+characteristics, guiding clinical decision-making for biopsy referral
+and surveillance scheduling. User interface development and usability
+testing would be essential for clinical adoption.</p>
+<p><strong>Risk Calculator Development</strong></p>
+<p>A web-based or mobile application risk calculator incorporating the
+logistic regression model could enable patient self-assessment and
+shared decision-making. Such tools would present risk estimates in
+accessible formats, helping patients understand their individual risk
+profiles and engage in informed discussions with healthcare
+providers.</p>
+<p><strong>Biological Mechanism Investigation</strong></p>
+<p>Collaborative research with basic science investigators could explore
+the biological mechanisms underlying the associations identified in this
+epidemiological analysis. Laboratory studies examining genetic variants,
+metabolic pathways, and inflammatory markers would provide mechanistic
+insights and potentially reveal novel therapeutic targets.</p>
+<hr />
+<h2 id="references">7. References</h2>
+<ol type="1">
+<li><p>Rawla P. Epidemiology of Prostate Cancer. World Journal of
+Oncology. 2019;10(2):63-89. doi:10.14740/wjon1191</p></li>
+<li><p>Prostate-Specific Antigen Best Practice Statement: 2009 Update.
+American Urological Association. 2009.</p></li>
+<li><p>Catalona WJ, Richie JP, Ahmann FR, et al. Comparison of digital
+rectal examination and serum prostate specific antigen in the early
+detection of prostate cancer: results of a multicenter clinical trial of
+6,630 men. Journal of Urology. 1994;151(5):1283-1290.</p></li>
+<li><p>Loeb S, Catalona WJ. What to do with an abnormal PSA test. CA
+Cancer Journal for Clinicians. 2008;58(5):293-300.</p></li>
+<li><p>Hoffman RM. Clinical practice. Screening for prostate cancer. New
+England Journal of Medicine. 2011;365(21):2013-2019.</p></li>
+<li><p>Jemal A, Center MM, DeSantis C, Ward EM. Global patterns of
+cancer incidence and mortality rates and trends. Cancer Epidemiology
+Biomarkers &amp; Prevention. 2010;19(8):1893-1907.</p></li>
+<li><p>Grönberg H. Prostate cancer epidemiology. Lancet.
+2003;361(9360):859-864.</p></li>
+<li><p>Kheirandish P, Negro O. Familial prostate cancer. Current Opinion
+in Urology. 2006;16(3):147-151.</p></li>
+<li><p>Powell IJ, Bock CH, Ruterbusch JJ, Sakr W. Evidence supports a
+faster growth rate and/or earlier transformation to clinically
+significant prostate cancer in African-American than in Caucasian
+American men. Journal of Urology. 2010;183(5):1792-1796.</p></li>
+<li><p>Albright FS, Stephenson RA, Agarwal N, et al. Prostate cancer
+risk prediction based on complete prostate cancer family history.
+Prostate. 2019;79(13):1548-1557.</p></li>
+<li><p>Hosmer DW, Lemeshow S, Sturdivant RX. Applied Logistic
+Regression. 3rd ed. Hoboken, NJ: Wiley; 2013.</p></li>
+<li><p>Breiman L. Random forests. Machine Learning.
+2001;45(1):5-32.</p></li>
+<li><p>Hastie T, Tibshirani R, Friedman J. The Elements of Statistical
+Learning. 2nd ed. New York, NY: Springer; 2009.</p></li>
+<li><p>James G, Witten D, Hastie T, Tibshirani R. An Introduction to
+Statistical Learning. New York, NY: Springer; 2013.</p></li>
+<li><p>R Core Team. R: A Language and Environment for Statistical
+Computing. R Foundation for Statistical Computing, Vienna, Austria;
+2024. https://www.R-project.org/</p></li>
+<li><p>Van Rossum G, Drake FL. Python 3 Reference Manual. Scotts Valley,
+CA: CreateSpace; 2009.</p></li>
+<li><p>Pedregosa F, Varoquaux G, Gramfort A, et al. Scikit-learn:
+Machine Learning in Python. Journal of Machine Learning Research.
+2011;12:2825-2830.</p></li>
+<li><p>Wickham H. ggplot2: Elegant Graphics for Data Analysis. 2nd
+ed. New York, NY: Springer; 2016.</p></li>
+<li><p>McKinney W. Data structures for statistical computing in Python.
+Proceedings of the 9th Python in Science Conference.
+2010;445:51-56.</p></li>
+<li><p>World Health Organization. Cancer fact sheet.
+https://www.who.int/news-room/fact-sheets/detail/cancer. Updated
+2024.</p></li>
+</ol>
+<hr />
+<h2 id="appendix-a-comprehensive-visualization-gallery">Appendix A:
+Comprehensive Visualization Gallery</h2>
+<p>This section provides a complete overview of all visualizations
+generated during the analysis, organized by analysis type and
+implementation platform.</p>
+<h3 id="a.1-univariate-analysis-visualizations">A.1 Univariate Analysis
+Visualizations</h3>
+<h4 id="a.1.1-demographic-distributions">A.1.1 Demographic
+Distributions</h4>
+<ul>
+<li><strong>Figure A.1:</strong> Age Distribution (R) -
+<code>plots_r/univariate_age_distribution.png</code></li>
+<li><strong>Figure A.2:</strong> Family History Distribution (R) -
+<code>plots_r/univariate_family_history_distribution.png</code></li>
+</ul>
+<h4 id="a.1.2-clinical-measurements">A.1.2 Clinical Measurements</h4>
+<ul>
+<li><strong>Figure A.3:</strong> PSA Distribution (R) -
+<code>plots_r/univariate_psa_distribution.png</code></li>
+<li><strong>Figure A.4:</strong> PSA Log Distribution (R) -
+<code>plots_r/univariate_psa_log_distribution.png</code></li>
+<li><strong>Figure A.5:</strong> PSA Category Distribution (R) -
+<code>plots_r/univariate_psa_category_distribution.png</code></li>
+<li><strong>Figure A.6:</strong> PSA Category Distribution (Python) -
+<code>plots_python/univariate_psa_category.png</code></li>
+<li><strong>Figure A.7:</strong> Prostate Volume Distribution (R) -
+<code>plots_r/univariate_prostate_volume_distribution.png</code></li>
+<li><strong>Figure A.8:</strong> BMI Distribution (R) -
+<code>plots_r/univariate_bmi_distribution.png</code></li>
+</ul>
+<h4 id="a.1.3-diagnostic-outcomes">A.1.3 Diagnostic Outcomes</h4>
+<ul>
+<li><strong>Figure A.9:</strong> Biopsy Distribution (R) -
+<code>plots_r/univariate_biopsy_distribution.png</code></li>
+<li><strong>Figure A.10:</strong> Biopsy Distribution (Python) -
+<code>plots_python/univariate_biopsy_distribution.png</code></li>
+<li><strong>Figure A.11:</strong> Cancer Stage Distribution (R) -
+<code>plots_r/univariate_cancer_stage_distribution.png</code></li>
+<li><strong>Figure A.12:</strong> Cancer Stage Distribution (Python) -
+<code>plots_python/univariate_cancer_stage.png</code></li>
+<li><strong>Figure A.13:</strong> Comprehensive Univariate Overview
+(Python) - <code>plots_python/univariate_distributions.png</code></li>
+</ul>
+<h3 id="a.2-bivariate-analysis-visualizations">A.2 Bivariate Analysis
+Visualizations</h3>
+<h4 id="a.2.1-clinical-factors-vs.-biopsy-results">A.2.1 Clinical
+Factors vs. Biopsy Results</h4>
+<ul>
+<li><strong>Figure A.14:</strong> Age by Biopsy Result (R) -
+<code>plots_r/bivariate_age_by_biopsy.png</code></li>
+<li><strong>Figure A.15:</strong> PSA by Biopsy Result (R) -
+<code>plots_r/bivariate_psa_by_biopsy.png</code></li>
+<li><strong>Figure A.16:</strong> DRE by Biopsy Result (R) -
+<code>plots_r/bivariate_dre_by_biopsy.png</code></li>
+</ul>
+<h4 id="a.2.2-demographic-risk-factors">A.2.2 Demographic Risk
+Factors</h4>
+<ul>
+<li><strong>Figure A.17:</strong> Cancer Rate by Family History (R) -
+<code>plots_r/bivariate_cancer_rate_by_family.png</code></li>
+<li><strong>Figure A.18:</strong> Cancer Rate by Race (R) -
+<code>plots_r/bivariate_cancer_rate_by_race.png</code></li>
+<li><strong>Figure A.19:</strong> Cancer Rate by PSA Category (R) -
+<code>plots_r/bivariate_cancer_rate_by_psa.png</code></li>
+</ul>
+<h4 id="a.2.3-symptom-analysis">A.2.3 Symptom Analysis</h4>
+<ul>
+<li><strong>Figure A.20:</strong> Symptoms by Biopsy Result (R) -
+<code>plots_r/bivariate_symptoms_by_biopsy.png</code></li>
+</ul>
+<h3 id="a.3-multivariate-analysis-visualizations">A.3 Multivariate
+Analysis Visualizations</h3>
+<h4 id="a.3.1-correlation-and-interaction-analysis">A.3.1 Correlation
+and Interaction Analysis</h4>
+<ul>
+<li><strong>Figure A.21:</strong> Correlation Matrix (R) -
+<code>plots_r/multivariate_correlation_matrix.png</code></li>
+<li><strong>Figure A.22:</strong> Age, PSA, and Biopsy Relationship (R)
+- <code>plots_r/multivariate_age_psa_biopsy.png</code></li>
+<li><strong>Figure A.23:</strong> PSA by Age and Biopsy (R) -
+<code>plots_r/multivariate_psa_by_age_biopsy.png</code></li>
+<li><strong>Figure A.24:</strong> Volume, PSA, and Biopsy Relationship
+(R) - <code>plots_r/multivariate_volume_psa_biopsy.png</code></li>
+<li><strong>Figure A.25:</strong> Cancer, Age, and Family History (R) -
+<code>plots_r/multivariate_cancer_age_family.png</code></li>
+</ul>
+<h3 id="a.4-model-performance-visualizations">A.4 Model Performance
+Visualizations</h3>
+<h4 id="a.4.1-predictive-model-results">A.4.1 Predictive Model
+Results</h4>
+<ul>
+<li><strong>Figure A.26:</strong> Logistic Regression ROC Curve (R) -
+<code>plots_r/logistic_roc_curve.png</code></li>
+<li><strong>Figure A.27:</strong> Decision Tree Visualization (R) -
+<code>plots_r/decision_tree_plot.png</code></li>
+</ul>
+<h3 id="a.5-cross-platform-analysis-summary">A.5 Cross-Platform Analysis
+Summary</h3>
+<p>The visualization gallery demonstrates the comprehensive nature of
+the ProCogniTrack analysis, with plots generated using both R (ggplot2)
+and Python (matplotlib/seaborn) to ensure methodological consistency and
+cross-platform validation. Each visualization contributes to
+understanding different aspects of prostate cancer risk factors and
+predictive modeling.</p>
+<p><strong>R Visualizations (plots_r/):</strong> 19 plots focusing on
+statistical rigor and publication-quality graphics <strong>Python
+Visualizations (plots_python/):</strong> 4 plots emphasizing data
+science workflows and machine learning visualization</p>
+<hr />
+<h2 id="appendix-summary">Appendix Summary</h2>
+<p>This project documentation is accompanied by two comprehensive code
+files:</p>
+<p><strong>Appendix A: R Code
+(prostate_cancer_analysis_R.R)</strong></p>
+<p>Complete R implementation for exploratory data analysis and
+regression modeling in RStudio, including data loading, preprocessing,
+univariate analysis, bivariate analysis, multivariate analysis, logistic
+regression, decision tree, random forest, and visualization using
+ggplot2.</p>
+<p><strong>Appendix B: Python Code
+(prostate_cancer_analysis_python.py)</strong></p>
+<p>Complete Python implementation for the same analyses using pandas,
+numpy, matplotlib, seaborn, and scikit-learn in VS Code or any Python
+IDE, providing parallel code development for cross-platform
+validation.</p>
+<hr />
+<p><em>Project prepared as partial fulfillment of requirements for Data
+Analysis using R &amp; Python</em> <em>Academic Year 2025–26</em></p>
+</body>
+</html>
